@@ -15,16 +15,16 @@ const Select = ({
 }) => {
   // const [value, setValue] = useState();
   const [value, setValue] = useState(null); // Initial state
-  
+
   const [collapsed, setCollapsed] = useState(true);
 
   const changeValue = (newValue) => {
     // onChange();
     // setValue(newValue);
     // setCollapsed(newValue);
-    onChange(newValue); // Pass new value to the parent component
-    setValue(newValue); // Set the new value in state
-    setCollapsed(true); // Collapse the dropdown
+    onChange(newValue);
+    setValue(newValue);
+    setCollapsed(true);
   };
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
@@ -39,7 +39,13 @@ const Select = ({
               {!titleEmpty && (
                 <li onClick={() => changeValue(null)}>
                   {/* <input defaultChecked={!value} name="selected" type="radio" />{" "} */}
-                  <input checked={!value} name="selected" type="radio" /> Toutes
+                  <input
+                    checked={!value}
+                    name="selected"
+                    type="radio"
+                    onChange={() => changeValue(null)}
+                  />{" "}
+                  Toutes
                 </li>
               )}
               {selection.map((s) => (
@@ -49,7 +55,12 @@ const Select = ({
                     name="selected"
                     type="radio"
                   /> */}
-                  <input checked={value === s} name="selected" type="radio" />{" "}
+                  <input
+                    checked={value === s}
+                    name="selected"
+                    type="radio"
+                    onChange={() => changeValue(s)}
+                  />{" "}
                   {s}
                 </li>
               ))}
@@ -95,7 +106,7 @@ Select.propTypes = {
   titleEmpty: PropTypes.bool,
   label: PropTypes.string,
   type: PropTypes.string,
-}
+};
 
 Select.defaultProps = {
   onChange: () => null,
@@ -103,6 +114,6 @@ Select.defaultProps = {
   label: "",
   type: "normal",
   name: "select",
-}
+};
 
 export default Select;

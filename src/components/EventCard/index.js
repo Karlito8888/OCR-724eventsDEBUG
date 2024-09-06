@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-// import { getMonth } from "../../helpers/Date";
+import { getMonth } from "../../helpers/Date";
 import "./style.scss";
 
 // Fonction pour extraire le mois de la "periode"
@@ -14,7 +14,7 @@ const extractMonthFromPeriode = (periode) => {
 const EventCard = ({
   imageSrc,
   imageAlt,
-  // date,
+  date,
   periode,
   title,
   label,
@@ -35,7 +35,7 @@ const EventCard = ({
       </div>
       <div className="EventCard__descriptionContainer">
         <div className="EventCard__title">{title}</div>
-        {/* <div className="EventCard__month">{getMonth(date)}</div> */}
+        <div className="EventCard__month">{getMonth(date)}</div>
         <div className="EventCard__month">{month}</div>
       </div>
     </div>
@@ -45,8 +45,8 @@ const EventCard = ({
 EventCard.propTypes = {
   imageSrc: PropTypes.string.isRequired,
   imageAlt: PropTypes.string,
-  // date: PropTypes.instanceOf(Date).isRequired,
-  periode: PropTypes.string.isRequired,
+  date: PropTypes.instanceOf(Date),
+  periode: PropTypes.string,
   title: PropTypes.string.isRequired,
   small: PropTypes.bool,
   label: PropTypes.string.isRequired,
@@ -54,6 +54,8 @@ EventCard.propTypes = {
 
 EventCard.defaultProps = {
   imageAlt: "image",
+  date: new Date(),
+  periode: "",
   small: false,
 };
 

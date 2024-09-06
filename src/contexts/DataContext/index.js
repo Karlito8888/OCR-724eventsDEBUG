@@ -19,24 +19,45 @@ export const api = {
 export const DataProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  // Ajout de l'état `last`
+  const [last, setLast] = useState(null); 
+
+  // const getData = useCallback(async () => {
+  //   try {
+  //     setData(await api.loadData());
+  //   } catch (err) {
+  //     setError(err);
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   if (data) return;
+  //   getData();
+  // });
   const getData = useCallback(async () => {
     try {
-      setData(await api.loadData());
+      const loadedData = await api.loadData();
+      setData(loadedData);
+      if (loadedData && loadedData.focus && loadedData.focus.length > 0) {
+        setLast(loadedData.focus[loadedData.focus.length - 1]); // Définir `last` comme le dernier élément
+      }
     } catch (err) {
       setError(err);
     }
   }, []);
-  useEffect(() => {
-    if (data) return;
-    getData();
-  });
-  
+
+   useEffect(() => {
+     if (data) return;
+     getData();
+   }, [data, getData]);
+
+
   return (
     <DataContext.Provider
       // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         data,
         error,
+        last, // Ajout de `last` au contexte
       }}
     >
       {children}
