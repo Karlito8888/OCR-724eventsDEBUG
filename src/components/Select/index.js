@@ -13,12 +13,18 @@ const Select = ({
   label,
   type = "normal",
 }) => {
-  const [value, setValue] = useState();
+  // const [value, setValue] = useState();
+  const [value, setValue] = useState(null); // Initial state
+  
   const [collapsed, setCollapsed] = useState(true);
+
   const changeValue = (newValue) => {
-    onChange();
-    setValue(newValue);
-    setCollapsed(newValue);
+    // onChange();
+    // setValue(newValue);
+    // setCollapsed(newValue);
+    onChange(newValue); // Pass new value to the parent component
+    setValue(newValue); // Set the new value in state
+    setCollapsed(true); // Collapse the dropdown
   };
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
@@ -32,17 +38,18 @@ const Select = ({
             <>
               {!titleEmpty && (
                 <li onClick={() => changeValue(null)}>
-                  <input defaultChecked={!value} name="selected" type="radio" />{" "}
-                  Toutes
+                  {/* <input defaultChecked={!value} name="selected" type="radio" />{" "} */}
+                  <input checked={!value} name="selected" type="radio" /> Toutes
                 </li>
               )}
               {selection.map((s) => (
                 <li key={s} onClick={() => changeValue(s)}>
-                  <input
+                  {/* <input
                     defaultChecked={value === s}
                     name="selected"
                     type="radio"
-                  />{" "}
+                  /> */}
+                  <input checked={value === s} name="selected" type="radio" />{" "}
                   {s}
                 </li>
               ))}
