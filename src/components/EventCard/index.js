@@ -8,7 +8,7 @@ const extractMonthFromPeriode = (periode) => {
     return "";
   }
   const parts = periode.split(" "); // ["24-25-26", "Février"]
-  return parts[parts.length - 1]; // accède au dernier élément du tableau
+  return parts[parts.length - 1]; // On accède au dernier élément du tableau
 };
 
 const EventCard = ({
@@ -19,6 +19,7 @@ const EventCard = ({
   title,
   label,
   small = false,
+  showGetMonth = true, // prop pour déterminer quel mois afficher
   ...props
 }) => {
   const month = extractMonthFromPeriode(periode); // stocke le mois extrait de "periode"
@@ -35,8 +36,9 @@ const EventCard = ({
       </div>
       <div className="EventCard__descriptionContainer">
         <div className="EventCard__title">{title}</div>
-        <div className="EventCard__month">{getMonth(date)}</div>
-        <div className="EventCard__month">{month}</div>
+        <div className="EventCard__month">
+          {showGetMonth ? getMonth(date) : month}
+        </div>
       </div>
     </div>
   );
@@ -50,6 +52,7 @@ EventCard.propTypes = {
   title: PropTypes.string.isRequired,
   small: PropTypes.bool,
   label: PropTypes.string.isRequired,
+  showGetMonth: PropTypes.bool,
 };
 
 EventCard.defaultProps = {
@@ -57,6 +60,7 @@ EventCard.defaultProps = {
   date: new Date(),
   periode: "",
   small: false,
+  showGetMonth: true,
 };
 
 export default EventCard;

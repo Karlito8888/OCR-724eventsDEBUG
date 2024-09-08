@@ -61,6 +61,7 @@ const EventList = () => {
                     // date={new Date(event.date)}
                     periode={event.periode}
                     label={event.type}
+                    showGetMonth={false}
                   />
                 )}
               </Modal>
