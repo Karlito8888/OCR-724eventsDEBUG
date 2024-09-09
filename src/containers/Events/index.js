@@ -15,10 +15,11 @@ const EventList = () => {
   const [type, setType] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Filtrer les événements en fonction du type sélectionné (avant la pagination)
-  const filteredEvents = !type
-    ? data?.events || []
-    : data?.events.filter((event) => event.type === type);
+  // On filtre les événements en fonction du type sélectionné (avant la pagination)
+   const events = data?.events || [];
+   const filteredEvents = !type
+     ? events
+     : events.filter((event) => event.type === type);
 
   // Calculer le nombre de pages (basé sur tous les événements filtrés)
   // const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
@@ -35,13 +36,13 @@ const EventList = () => {
     setType(evtType);
   };
 
-  const typeList = new Set(data?.events.map((event) => event.type));
+  const typeList = new Set(events.map((event) => event.type));
 
   return (
     <>
       {error && <div>An error occured</div>}
       {data === null ? (
-        "loading"
+        "Chargement..."
       ) : (
         <>
           <h3 className="SelectTitle">Catégories</h3>

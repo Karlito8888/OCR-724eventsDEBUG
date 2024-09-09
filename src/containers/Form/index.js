@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import PropTypes from "prop-types";
-import Field, { FIELD_TYPES } from "../../components/Field";
 import Select from "../../components/Select";
+import Field, { FIELD_TYPES } from "../../components/Field";
 import Button, { BUTTON_TYPES } from "../../components/Button";
 
 const mockContactApi = () =>
@@ -18,13 +18,11 @@ const Form = ({ onSuccess, onError }) => {
 
       const form = evt.target;
       if (!form.checkValidity()) {
-        // Si le formulaire n'est pas valide, on ne fait rien
-        form.reportValidity(); // Affiche les messages de validation natifs
+        form.reportValidity();
         return;
       }
 
       setSending(true);
-      // We try to call mockContactApi
       try {
         await mockContactApi();
         setSending(false);
@@ -40,9 +38,10 @@ const Form = ({ onSuccess, onError }) => {
     <form onSubmit={sendContact}>
       <div className="row">
         <div className="col">
-          <Field placeholder="" label="Nom" required />
-          <Field placeholder="" label="Prénom" required />
+          <Field id="nom" placeholder="" label="Nom" required />
+          <Field id="prenom" placeholder="" label="Prénom" required />
           <Select
+            id="type"
             selection={["Personel", "Entreprise"]}
             onChange={() => null}
             label="Personel / Entreprise"
@@ -50,18 +49,23 @@ const Form = ({ onSuccess, onError }) => {
             titleEmpty
           />
           <Field
+            id="email"
             placeholder=""
             label="Email"
             type={FIELD_TYPES.INPUT_EMAIL}
             required
           />
-
-          <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
+          <Button
+            type={BUTTON_TYPES.SUBMIT}
+            disabled={sending}
+            data-testid="button-test-id"
+          >
             {sending ? "En cours" : "Envoyer"}
           </Button>
         </div>
         <div className="col">
           <Field
+            id="message"
             placeholder="message"
             label="Message"
             type={FIELD_TYPES.TEXTAREA}

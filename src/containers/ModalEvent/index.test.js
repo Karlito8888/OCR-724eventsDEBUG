@@ -18,14 +18,21 @@ const data = {
   ],
 };
 
-describe("When Modal data is created", () => {
-  it("a list of mandatories data is displayed", async () => {
+describe("When ModalEvent is rendered", () => {
+  it("should display mandatory data correctly", async () => {
     render(<ModalEvent event={data} />);
-    await screen.findByText("1 espace d’exposition");
-    await screen.findByText("24-25-26 Février");
-    await screen.findByText(
-      "Présentation des outils analytics aux professionnels du secteur"
-    );
-    await screen.findByText("Conférence #productCON");
+
+    expect(screen.getByText("Conférence #productCON")).toBeInTheDocument();
+    expect(screen.getByText("24-25-26 Février")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Présentation des outils analytics aux professionnels du secteur"
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByText("1300 participants")).toBeInTheDocument();
+
+    data.prestations.forEach((prestation) => {
+      expect(screen.getByText(prestation)).toBeInTheDocument();
+    });
   });
 });

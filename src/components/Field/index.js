@@ -12,6 +12,7 @@ const Field = ({
   type = FIELD_TYPES.INPUT_TEXT,
   label,
   name,
+  id,
   placeholder,
   onChange,
 }) => {
@@ -22,6 +23,7 @@ const Field = ({
         <input
           type="text"
           name={name}
+          id={id} // Ajout de l'attribut id
           placeholder={placeholder}
           data-testid="field-testid"
           onChange={onChange}
@@ -30,7 +32,12 @@ const Field = ({
       break;
     case FIELD_TYPES.TEXTAREA:
       component = (
-        <textarea name={name} data-testid="field-testid" onChange={onChange} />
+        <textarea
+          name={name}
+          id={id} // Ajout de l'attribut id
+          data-testid="field-testid"
+          onChange={onChange}
+        />
       );
       break;
     case FIELD_TYPES.INPUT_EMAIL:
@@ -38,17 +45,19 @@ const Field = ({
         <input
           type="email"
           name={name}
+          id={id} // Ajout de l'attribut id
           placeholder={placeholder}
           data-testid="field-testid"
           onChange={onChange}
         />
       );
-      break; // Ajout du type email
+      break;
     default:
       component = (
         <input
           type="text"
           name={name}
+          id={id} // Ajout de l'attribut id
           placeholder={placeholder}
           data-testid="field-testid"
           onChange={onChange}
@@ -57,7 +66,8 @@ const Field = ({
   }
   return (
     <div className="inputField">
-      <span>{label}</span>
+      {label && <label htmlFor={id}>{label}</label>}{" "}
+      {/* Utilisation de label avec htmlFor */}
       {component}
     </div>
   );
@@ -69,13 +79,15 @@ Field.propTypes = {
   label: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
+  id: PropTypes.string.isRequired, // Ajout de la validation pour id
 };
- Field.defaultProps = {
-   label: "",
-   placeholder: "",
-   type: FIELD_TYPES.INPUT_TEXT,
-   name: "field-name",
-   onChange: () => {},
- };
+
+Field.defaultProps = {
+  label: "",
+  placeholder: "",
+  type: FIELD_TYPES.INPUT_TEXT,
+  name: "field-name",
+  onChange: () => {},
+};
 
 export default Field;
