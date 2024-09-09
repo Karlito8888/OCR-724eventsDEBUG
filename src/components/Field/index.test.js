@@ -15,7 +15,9 @@ describe("When a field is created", () => {
   });
 
   it("a label is set with field", () => {
-    render(<Field placeholder="field-placeholder" label="field_label" name="test" />);
+    render(
+      <Field placeholder="field-placeholder" label="field_label" name="test" />
+    );
     const labelElement = screen.getByText(/field_label/);
     expect(labelElement).toBeInTheDocument();
   });
@@ -50,6 +52,14 @@ describe("When a field is created", () => {
       render(<Field type={FIELD_TYPES.TEXTAREA} name="test" />);
       const fieldElement = screen.getByTestId("field-testid");
       expect(fieldElement.type).toEqual("textarea");
+    });
+  });
+  // Ajout du type email
+  describe("and its type is set to FIELD_TYPES.INPUT_EMAIL", () => {
+    it("an email input is rendered", () => {
+      render(<Field type={FIELD_TYPES.INPUT_EMAIL} name="email" />);
+      const fieldElement = screen.getByTestId("field-testid");
+      expect(fieldElement.type).toEqual("email");
     });
   });
 

@@ -24,15 +24,25 @@ const Button = ({ title, onClick, type, disabled, children }) => {
       );
     case BUTTON_TYPES.SUBMIT:
       return (
-        <input
+        // <input
+        //   disabled={disabled}
+        //   className="Button"
+        //   type="submit"
+        //   data-testid="button-test-id"
+        //   value={children}
+        //   onClick={onClick}
+        //   title={title}
+        // />
+        <button
+          type="submit"
           disabled={disabled}
           className="Button"
-          type="submit"
           data-testid="button-test-id"
-          value={children}
           onClick={onClick}
           title={title}
-        />
+        >
+          {children}
+        </button>
       );
     default:
       return (
