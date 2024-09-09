@@ -38,13 +38,4 @@ describe("Icon component", () => {
       );
     });
   });
-
-//   describe("When an icon is created with name close", () => {
-//     it("the icon contains this path hash value 35f4b2fc53d19cc8d04c8dfb0c0b3c4e", () => {
-//       render(<Icon name="close" />);
-//       expect(md5(screen.getByTestId("icon-close").getAttribute("d"))).toEqual(
-//         "35f4b2fc53d19cc8d04c8dfb0c0b3c4e"
-//       );
-//     });
-//   });
 });

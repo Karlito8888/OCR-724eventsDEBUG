@@ -8,6 +8,7 @@ describe("When a field is created", () => {
     expect(fieldElement).toBeInTheDocument();
     expect(fieldElement.name).toEqual("field-name");
   });
+
   it("a placeholder is set on the field", () => {
     render(<Field placeholder="field-placeholder" name="test" />);
     const fieldElement = screen.getByTestId("field-testid");
@@ -27,13 +28,15 @@ describe("When a field is created", () => {
       const onChange = jest.fn();
       render(<Field onChange={onChange} name="test" />);
       const fieldElement = screen.getByTestId("field-testid");
-      fireEvent(
-        fieldElement,
-        new MouseEvent("click", {
-          bubbles: true,
-          cancelable: true,
-        })
-      );
+      // fireEvent(
+      //   fieldElement,
+      //   new MouseEvent("click", {
+      //     bubbles: true,
+      //     cancelable: true,
+      //   })
+      // );
+      fireEvent.change(fieldElement, { target: { value: "new value" } });
+      expect(onChange).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -51,7 +54,8 @@ describe("When a field is created", () => {
       window.console.error = jest.fn().mockImplementation(() => null); // disable propTypes warning
       render(<Field type={FIELD_TYPES.TEXTAREA} name="test" />);
       const fieldElement = screen.getByTestId("field-testid");
-      expect(fieldElement.type).toEqual("textarea");
+      // expect(fieldElement.type).toEqual("textarea");
+      expect(fieldElement.tagName).toEqual("TEXTAREA"); // Vérification correcte pour textarea
     });
   });
   // Ajout du type email

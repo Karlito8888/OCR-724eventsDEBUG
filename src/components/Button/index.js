@@ -3,11 +3,18 @@ import PropTypes from "prop-types";
 import "./style.scss";
 
 export const BUTTON_TYPES = {
-  DEFAULT: 1,
-  SUBMIT: 2,
+  // DEFAULT: 1,
+  // SUBMIT: 2,
+  DEFAULT: "default",
+  SUBMIT: "submit",
 };
 
 const Button = ({ title, onClick, type, disabled, children }) => {
+   const handleKeyDown = (event) => {
+     if (event.key === "Enter" || event.key === " ") {
+       onClick();
+     }
+   };
   switch (type) {
     case BUTTON_TYPES.DEFAULT:
       return (
@@ -17,6 +24,7 @@ const Button = ({ title, onClick, type, disabled, children }) => {
           className="Button"
           data-testid="button-test-id"
           onClick={onClick}
+          onKeyDown={handleKeyDown}
           title={title}
         >
           {children}
@@ -39,6 +47,7 @@ const Button = ({ title, onClick, type, disabled, children }) => {
           className="Button"
           data-testid="button-test-id"
           onClick={onClick}
+          onKeyDown={handleKeyDown}
           title={title}
         >
           {children}
@@ -52,6 +61,7 @@ const Button = ({ title, onClick, type, disabled, children }) => {
           className="Button"
           data-testid="button-test-id"
           onClick={onClick}
+          onKeyDown={handleKeyDown}
           title={title}
         >
           {children}
@@ -64,7 +74,7 @@ const Button = ({ title, onClick, type, disabled, children }) => {
 Button.propTypes = {
   title: PropTypes.string,
   onClick: PropTypes.func,
-  type: PropTypes.number,
+  type: PropTypes.oneOf(Object.values(BUTTON_TYPES)),
   disabled: PropTypes.bool,
   children: PropTypes.node,
 };

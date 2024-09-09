@@ -16,7 +16,7 @@ describe("When a event card is created", () => {
     expect(imageElement).toBeInTheDocument();
     expect(imageElement.alt).toEqual("image-alt-text");
   });
-  it("a title, a label and a month are displayed", () => {
+  it("a title and a label are displayed", () => {
     render(
       <EventCard
         imageSrc="http://src-image"
@@ -27,11 +27,11 @@ describe("When a event card is created", () => {
       />
     );
     const titleElement = screen.getByText(/test event/);
-    const monthElement = screen.getByText(/avril/);
+    // const monthElement = screen.getByText(/avril/);
     const labelElement = screen.getByText(/test label/);
     expect(titleElement).toBeInTheDocument();
     expect(labelElement).toBeInTheDocument();
-    expect(monthElement).toBeInTheDocument();
+    // expect(monthElement).toBeInTheDocument();
   });
   describe("with small props", () => {
     it("a modifier small is added", () => {
@@ -49,7 +49,11 @@ describe("When a event card is created", () => {
       expect(cardElement.className.includes("EventCard--small")).toEqual(true);
     });
   });
-  // On vérifie que le mois est affiché en fonction de la prop date.
+
+  // -----------------------------------
+  // AJOUT DE DEUX TESTS UNITAIRES
+
+  // On vérifie que le mois correct est affiché en fonction de la date passée dans les props.
   describe("when showGetMonth is true", () => {
     it("should display the month from date", () => {
       render(
@@ -67,6 +71,7 @@ describe("When a event card is created", () => {
     });
   });
 
+  // On vérifie que si showGetMonth est à false, le composant affiche le mois de la prop periode.
   describe("when showGetMonth is false", () => {
     it("should display the month from periode", () => {
       render(
