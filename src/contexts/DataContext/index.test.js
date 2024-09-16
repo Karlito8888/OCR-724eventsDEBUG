@@ -3,10 +3,19 @@ import { DataProvider, api, useData } from "./index";
 
 describe("When a data context is created", () => {
   it("a call is executed on the events.json file", async () => {
-    api.loadData = jest.fn().mockReturnValue({ result: "ok" });
+    // api.loadData = jest.fn().mockReturnValue({ result: "ok" });
+    // const Component = () => {
+    //   const { data } = useData();
+    //   return <div>{data?.result}</div>;
+    api.loadData = jest.fn().mockResolvedValue({ result: "ok", focus: ["first", "last"] });
     const Component = () => {
-      const { data } = useData();
-      return <div>{data?.result}</div>;
+      const { data, last } = useData();
+      return (
+        <div>
+          <div>{data?.result}</div>
+          <div>{last}</div>
+        </div>
+      );
     };
     render(
       <DataProvider>
@@ -14,8 +23,12 @@ describe("When a data context is created", () => {
       </DataProvider>
     );
     const dataDisplayed = await screen.findByText("ok");
+    const lastDisplayed = await screen.findByText("last");
+
     expect(dataDisplayed).toBeInTheDocument();
+    expect(lastDisplayed).toBeInTheDocument();
   });
+  
   describe("and the events call failed", () => {
     it("the error is dispatched", async () => {
       window.console.error = jest.fn();
