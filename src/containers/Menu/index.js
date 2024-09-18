@@ -6,8 +6,7 @@ import "./style.scss";
 
 const Menu = () => (
   <nav>
-    <Logo size="large" />
-
+    <Logo />
     <ul>
       <li>
         <a href="#nos-services">Nos services</a>
@@ -19,7 +18,7 @@ const Menu = () => (
         <a href="#notre-equipe">Notre équipe</a>
       </li>
     </ul>
-    <Button title="contact" onClick={() => (window.location.hash = "#contact")}>
+    <Button title="contact" onClick={() => (window.document.location.hash = "#contact")}>
       Contact
     </Button>
   </nav>

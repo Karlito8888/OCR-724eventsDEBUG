@@ -7,6 +7,14 @@ import {
   useState,
 } from "react";
 
+// Fonction pour obtenir le dernier événement
+const getLatestEvent = (events) =>
+  events.reduce(
+    (latest, event) =>
+      new Date(event.date) > new Date(latest.date) ? event : latest,
+    events[0]
+  );
+
 const DataContext = createContext({});
 
 export const api = {
@@ -19,37 +27,27 @@ export const api = {
 export const DataProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
-  // Ajout de l'état `last`
-  const [last, setLast] = useState(null); 
+  const [latestEvent, setLatestEvent] = useState(null);
 
-  // const getData = useCallback(async () => {
-  //   try {
-  //     setData(await api.loadData());
-  //   } catch (err) {
-  //     setError(err);
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   if (data) return;
-  //   getData();
-  // });
   const getData = useCallback(async () => {
     try {
-      const loadedData = await api.loadData();
-      setData(loadedData);
-      if (loadedData && loadedData.focus && loadedData.focus.length > 0) {
-        setLast(loadedData.focus[loadedData.focus.length - 1]); // Définir `last` comme le dernier élément
+      const response = await api.loadData();
+      setData(response);
+
+      if (response && response.events) {
+        const latest = getLatestEvent(response.events);
+        setLatestEvent(latest);
       }
     } catch (err) {
       setError(err);
     }
   }, []);
 
-   useEffect(() => {
-     if (data) return;
-     getData();
-   }, [data, getData]);
-
+  useEffect(() => {
+    if (!data) {
+      getData();
+    }
+  }, [data, getData]);
 
   return (
     <DataContext.Provider
@@ -57,7 +55,7 @@ export const DataProvider = ({ children }) => {
       value={{
         data,
         error,
-        last, // Ajout de `last` au contexte
+        latestEvent,
       }}
     >
       {children}
@@ -67,8 +65,9 @@ export const DataProvider = ({ children }) => {
 
 DataProvider.propTypes = {
   children: PropTypes.node.isRequired,
-}
+};
 
 export const useData = () => useContext(DataContext);
 
 export default DataContext;
+

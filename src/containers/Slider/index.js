@@ -1,76 +1,82 @@
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useData } from "../../contexts/DataContext";
 import { getMonth } from "../../helpers/Date";
+
 import "./style.scss";
 
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
 
-  // Utiliser useMemo pour mémoriser la valeur de byDateAsc
-  const byDateAsc = useMemo(() => {
-    if (!data?.focus) return [];
-    return (data.focus || []).sort((evtA, evtB) => {
-      const dateA = new Date(evtA.date);
-      const dateB = new Date(evtB.date);
-      return dateA - dateB;
-    });
-  }, [data]);
+  // Trier les événements par date croissante (ordre ascendant)
+  const byDateAsc = data?.focus?.length
+    ? data.focus.sort((evtA, evtB) => new Date(evtA.date) - new Date(evtB.date))
+    : [];
 
-  const nextCard = useCallback(() => {
-    setIndex((prevIndex) => (prevIndex + 1) % byDateAsc.length);
-  }, [byDateAsc.length]);
+  // Fonction pour passer à la carte suivante
+  const nextCard = () => {
+    setIndex((prevIndex) =>
+      prevIndex < byDateAsc.length - 1 ? prevIndex + 1 : 0
+    );
+  };
 
+  // Utilisation de useEffect pour gérer la temporisation
   useEffect(() => {
     if (byDateAsc.length > 0) {
-      const interval = setInterval(nextCard, 5000);
-      return () => clearInterval(interval);
+      const timer = setTimeout(nextCard, 5000);
+      return () => clearTimeout(timer);
     }
-    // Ajout d'un return explicite pour les cas où byDateAsc.length est 0
     return undefined;
-  }, [byDateAsc, nextCard]);
+  }, [index, byDateAsc.length]);
 
-  //
-  const handleRadioChange = (newIndex) => {
-    setIndex(newIndex);
-  };
+  if (byDateAsc.length === 0) return null;
+
+  // const nextCard = () => {
+  //   setTimeout(
+  //     () => setIndex(index < byDateDesc.length ? index + 1 : 0),
+  //     5000
+  //   );
+  // };
+  // useEffect(() => {
+  //   nextCard();
+  // });
 
   return (
     <div className="SlideCardList">
-      {byDateAsc.map((ev, idx) => (
-        <div key={ev.id} className="SlideCardContainer">
-          <div
-            className={`SlideCard SlideCard--${
-              index === idx ? "display" : "hide"
-            }`}
-          >
-            <img src={ev.cover} alt="forum" />
-            <div className="SlideCard__descriptionContainer">
-              <div className="SlideCard__description">
-                <h3>{ev.title}</h3>
-                <p>{ev.description}</p>
-                <div>{getMonth(new Date(ev.date))}</div>
-              </div>
-            </div>
-          </div>
-          <div className="SlideCard__paginationContainer">
-            <div className="SlideCard__pagination">
-              {byDateAsc.map((evPagination, paginationIndex) => (
-                <input
-                  key={evPagination.id}
-                  type="radio"
-                  name="radio-button"
-                  // checked={index === byDateAsc.indexOf(evPagination)}
-                  checked={index === paginationIndex}
-                  onChange={() => handleRadioChange(paginationIndex)}
-                />
-              ))}
+      {byDateAsc.map((event, idx) => (
+        <div
+          key={event.title}
+          className={`SlideCard SlideCard--${
+            index === idx ? "display" : "hide"
+          }`}
+        >
+          <img src={event.cover} alt="forum" />
+          <div className="SlideCard__descriptionContainer">
+            <div className="SlideCard__description">
+              <h3>{event.title}</h3>
+              <p>{event.description}</p>
+              <div>{getMonth(new Date(event.date))}</div>
             </div>
           </div>
         </div>
       ))}
+
+      <div className="SlideCard__paginationContainer">
+        <div className="SlideCard__pagination">
+          {byDateAsc.map((event, radioIdx) => (
+            <input
+              key={event.title} // Utilisation du titre comme clé pour les boutons radio
+              type="radio"
+              name="radio-button"
+              checked={index === radioIdx}
+              onChange={() => setIndex(radioIdx)}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
 
 export default Slider;
+

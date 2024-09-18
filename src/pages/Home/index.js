@@ -2,6 +2,7 @@ import Menu from "../../containers/Menu";
 import ServiceCard from "../../components/ServiceCard";
 import EventCard from "../../components/EventCard";
 import PeopleCard from "../../components/PeopleCard";
+import { useData } from "../../contexts/DataContext";
 
 import "./style.scss";
 import EventList from "../../containers/Events";
@@ -10,10 +11,9 @@ import Logo from "../../components/Logo";
 import Icon from "../../components/Icon";
 import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
-import { useData } from "../../contexts/DataContext";
 
-const Page = () => {
-  const {last} = useData()
+const Home = () => {
+  const { latestEvent } = useData();
 
   return (
     <>
@@ -115,23 +115,16 @@ const Page = () => {
       <footer className="row">
         <div className="col presta">
           <h3>Notre derniére prestation</h3>
-          {/* <EventCard
-          imageSrc={last?.cover}
-          title={last?.title}
-          date={new Date(last?.date)}
-          small
-          label="boom"
-        /> */}
-          {last ? (
+          {latestEvent ? (
             <EventCard
-              imageSrc={last.cover}
-              title={last.title}
-              date={new Date(last.date)}
+              imageSrc={latestEvent.cover}
+              title={latestEvent.title}
+              date={new Date(latestEvent.date)}
               small
               label="boom"
             />
           ) : (
-            <p>Aucune prestation disponible.</p>
+            <p>Aucun événement disponible</p>
           )}
         </div>
         <div className="col contact">
@@ -166,6 +159,7 @@ const Page = () => {
       </footer>
     </>
   );
-}
+};
 
-export default Page;
+export default Home;
+

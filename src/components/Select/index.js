@@ -22,9 +22,9 @@ const Select = ({
     // onChange();
     // setValue(newValue);
     // setCollapsed(newValue);
-    onChange(newValue);
     setValue(newValue);
     setCollapsed(true);
+    onChange(newValue);
   };
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
@@ -117,3 +117,4 @@ Select.defaultProps = {
 };
 
 export default Select;
+

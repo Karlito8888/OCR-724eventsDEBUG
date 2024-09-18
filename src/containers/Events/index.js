@@ -16,14 +16,14 @@ const EventList = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   // On filtre les événements en fonction du type sélectionné (avant la pagination)
-   const events = data?.events || [];
-   const filteredEvents = !type
-     ? events
-     : events.filter((event) => event.type === type);
+  const events = data?.events || [];
+  const filteredEvents = !type
+    ? events
+    : events.filter((event) => event.type === type);
 
   // Calculer le nombre de pages (basé sur tous les événements filtrés)
   // const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
-  const pageNumber = Math.ceil((filteredEvents.length) / PER_PAGE);
+  const pageNumber = Math.ceil(filteredEvents.length / PER_PAGE);
 
   // Filtrer les événements pour la page courante
   const paginatedEvents = filteredEvents.slice(
@@ -83,3 +83,4 @@ const EventList = () => {
 };
 
 export default EventList;
+

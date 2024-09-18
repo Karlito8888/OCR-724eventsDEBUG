@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import Select from "../../components/Select";
 import Field, { FIELD_TYPES } from "../../components/Field";
+import Select from "../../components/Select";
 import Button, { BUTTON_TYPES } from "../../components/Button";
 
 const mockContactApi = () =>
@@ -11,22 +11,19 @@ const mockContactApi = () =>
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
+  const formRef = useRef(null);
 
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
-
-      const form = evt.target;
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-
       setSending(true);
       try {
         await mockContactApi();
         setSending(false);
-        onSuccess(); // Appel de onSuccess après la soumission réussie
+        if (formRef.current) {
+          formRef.current.reset(); // Réinitialise le formulaire
+        }
+        onSuccess(); // Appel de la fonction onSuccess pour ouvrir la modale
       } catch (err) {
         setSending(false);
         onError(err);
@@ -34,27 +31,21 @@ const Form = ({ onSuccess, onError }) => {
     },
     [onSuccess, onError]
   );
+
   return (
-    <form onSubmit={sendContact}>
+    <form ref={formRef} onSubmit={sendContact}>
       <div className="row">
         <div className="col">
-          <Field id="nom" placeholder="" label="Nom" required />
-          <Field id="prenom" placeholder="" label="Prénom" required />
+          <Field placeholder="" label="Nom" />
+          <Field placeholder="" label="Prénom" />
           <Select
-            id="type"
             selection={["Personel", "Entreprise"]}
             onChange={() => null}
             label="Personel / Entreprise"
             type="large"
             titleEmpty
           />
-          <Field
-            id="email"
-            placeholder=""
-            label="Email"
-            type={FIELD_TYPES.INPUT_EMAIL}
-            required
-          />
+          <Field placeholder="" label="Email" />
           <Button
             type={BUTTON_TYPES.SUBMIT}
             disabled={sending}
@@ -65,11 +56,9 @@ const Form = ({ onSuccess, onError }) => {
         </div>
         <div className="col">
           <Field
-            id="message"
             placeholder="message"
             label="Message"
             type={FIELD_TYPES.TEXTAREA}
-            required
           />
         </div>
       </div>
@@ -88,3 +77,4 @@ Form.defaultProps = {
 };
 
 export default Form;
+

@@ -1,27 +1,31 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Menu from "./index";
 
 describe("When Menu is created", () => {
   it("a list of mandatory links and the logo are displayed", async () => {
     render(<Menu />);
 
-    expect(await screen.findByText("Nos services")).toBeInTheDocument();
-    expect(await screen.findByText("Nos réalisations")).toBeInTheDocument();
-    expect(await screen.findByText("Notre équipe")).toBeInTheDocument();
-    expect(await screen.findByText("Contact")).toBeInTheDocument();
+    // Vérifie la présence des éléments
+    await screen.findByText("Nos services");
+    await screen.findByText("Nos réalisations");
+    await screen.findByText("Notre équipe");
+    await screen.findByText("Contact");
   });
 
   describe("and a click is triggered on the contact button", () => {
-    it("document location hash changes", () => {
-      // Mock window.location.hash to avoid changing the real location
-      delete window.location;
-      window.location = { hash: "" };
-
+    it("document location hash changes to #contact", () => {
+      // Sauvegarder l'état actuel du hash pour le réinitialiser plus tard
+      const originalHash = window.location.hash;
       render(<Menu />);
 
+      // Simule le clic sur le bouton Contact
       fireEvent.click(screen.getByText("Contact"));
 
+      // Vérifie que le hash a été mis à jour
       expect(window.location.hash).toEqual("#contact");
+
+      // Réinitialise le hash pour éviter les effets secondaires sur les autres tests
+      window.location.hash = originalHash;
     });
   });
 });

@@ -3,18 +3,11 @@ import PropTypes from "prop-types";
 import "./style.scss";
 
 export const BUTTON_TYPES = {
-  // DEFAULT: 1,
-  // SUBMIT: 2,
-  DEFAULT: "default",
-  SUBMIT: "submit",
+  DEFAULT: 1,
+  SUBMIT: 2,
 };
 
 const Button = ({ title, onClick, type, disabled, children }) => {
-   const handleKeyDown = (event) => {
-     if (event.key === "Enter" || event.key === " ") {
-       onClick();
-     }
-   };
   switch (type) {
     case BUTTON_TYPES.DEFAULT:
       return (
@@ -24,7 +17,6 @@ const Button = ({ title, onClick, type, disabled, children }) => {
           className="Button"
           data-testid="button-test-id"
           onClick={onClick}
-          onKeyDown={handleKeyDown}
           title={title}
         >
           {children}
@@ -32,26 +24,15 @@ const Button = ({ title, onClick, type, disabled, children }) => {
       );
     case BUTTON_TYPES.SUBMIT:
       return (
-        // <input
-        //   disabled={disabled}
-        //   className="Button"
-        //   type="submit"
-        //   data-testid="button-test-id"
-        //   value={children}
-        //   onClick={onClick}
-        //   title={title}
-        // />
-        <button
-          type="submit"
+        <input
           disabled={disabled}
           className="Button"
+          type="submit"
           data-testid="button-test-id"
+          value={title || children}
           onClick={onClick}
-          onKeyDown={handleKeyDown}
           title={title}
-        >
-          {children}
-        </button>
+        />
       );
     default:
       return (
@@ -61,7 +42,6 @@ const Button = ({ title, onClick, type, disabled, children }) => {
           className="Button"
           data-testid="button-test-id"
           onClick={onClick}
-          onKeyDown={handleKeyDown}
           title={title}
         >
           {children}
@@ -74,7 +54,7 @@ const Button = ({ title, onClick, type, disabled, children }) => {
 Button.propTypes = {
   title: PropTypes.string,
   onClick: PropTypes.func,
-  type: PropTypes.oneOf(Object.values(BUTTON_TYPES)),
+  type: PropTypes.number,
   disabled: PropTypes.bool,
   children: PropTypes.node,
 };
@@ -87,3 +67,4 @@ Button.defaultProps = {
 }
 
 export default Button;
+

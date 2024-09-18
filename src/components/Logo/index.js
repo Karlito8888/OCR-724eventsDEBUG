@@ -6,8 +6,7 @@ const Logo = ({ size }) => (
   <div className="Logo">
     <svg
       width={size === "large" ? "160" : "130"}
-      // height={size === "large" ? "60" : "60"}
-      height="60"
+      height={size === "large" ? "60" : "60"}
       viewBox="0 0 130 50"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -38,12 +37,6 @@ const Logo = ({ size }) => (
       />
       <text
         fill="url(#paint5_linear_56_57)"
-        // style={{
-        //   "font-family": "Kalimati",
-        //   "font-size": "39px",
-        //   "font-weight": 700,
-        //   "white-space": "pre",
-        // }}
         style={{
           fontFamily: "Kalimati",
           fontSize: "39px",
@@ -149,14 +142,11 @@ const Logo = ({ size }) => (
   </div>
 );
 
-// Logo.propTypes = {
-//   size: PropTypes.string,
-// };
-// Logo.defaultProps = {
-//   size: "small",
-// };
 Logo.propTypes = {
-  size: PropTypes.oneOf(["small", "large"]).isRequired,
+  size: PropTypes.string,
+};
+Logo.defaultProps = {
+  size: "small",
 };
 
 export default Logo;

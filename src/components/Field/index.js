@@ -5,17 +5,9 @@ import "./style.scss";
 export const FIELD_TYPES = {
   INPUT_TEXT: 1,
   TEXTAREA: 2,
-  INPUT_EMAIL: 3, // Ajout du type email
 };
 
-const Field = ({
-  type = FIELD_TYPES.INPUT_TEXT,
-  label,
-  name,
-  id,
-  placeholder,
-  onChange,
-}) => {
+const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder }) => {
   let component;
   switch (type) {
     case FIELD_TYPES.INPUT_TEXT:
@@ -23,51 +15,27 @@ const Field = ({
         <input
           type="text"
           name={name}
-          id={id} // Ajout de l'attribut id
           placeholder={placeholder}
           data-testid="field-testid"
-          onChange={onChange}
         />
       );
       break;
     case FIELD_TYPES.TEXTAREA:
-      component = (
-        <textarea
-          name={name}
-          id={id} // Ajout de l'attribut id
-          data-testid="field-testid"
-          onChange={onChange}
-        />
-      );
-      break;
-    case FIELD_TYPES.INPUT_EMAIL:
-      component = (
-        <input
-          type="email"
-          name={name}
-          id={id} // Ajout de l'attribut id
-          placeholder={placeholder}
-          data-testid="field-testid"
-          onChange={onChange}
-        />
-      );
+      component = <textarea name={name} data-testid="field-testid" />;
       break;
     default:
       component = (
         <input
           type="text"
           name={name}
-          id={id} // Ajout de l'attribut id
           placeholder={placeholder}
           data-testid="field-testid"
-          onChange={onChange}
         />
       );
   }
   return (
     <div className="inputField">
-      {label && <label htmlFor={id}>{label}</label>}{" "}
-      {/* Utilisation de label avec htmlFor */}
+      <span>{label}</span>
       {component}
     </div>
   );
@@ -78,16 +46,13 @@ Field.propTypes = {
   name: PropTypes.string,
   label: PropTypes.string,
   placeholder: PropTypes.string,
-  onChange: PropTypes.func,
-  id: PropTypes.string.isRequired, // Ajout de la validation pour id
 };
-
-Field.defaultProps = {
-  label: "",
-  placeholder: "",
-  type: FIELD_TYPES.INPUT_TEXT,
-  name: "field-name",
-  onChange: () => {},
-};
+ Field.defaultProps = {
+   label: "",
+   placeholder: "",
+   type: FIELD_TYPES.INPUT_TEXT,
+   name: "field-name",
+ }
 
 export default Field;
+
