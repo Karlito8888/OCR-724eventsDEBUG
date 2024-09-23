@@ -12,6 +12,7 @@ const mockContactApi = () =>
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
   const formRef = useRef(null);
+  // pour réinitialiser le formulaire après un envoi réussi.
 
   const sendContact = useCallback(
     async (evt) => {
@@ -21,9 +22,10 @@ const Form = ({ onSuccess, onError }) => {
         await mockContactApi();
         setSending(false);
         if (formRef.current) {
-          formRef.current.reset(); // Réinitialise le formulaire
+          formRef.current.reset();
         }
-        onSuccess(); // Appel de la fonction onSuccess pour ouvrir la modale
+        // Appel à onSuccess()
+        onSuccess();
       } catch (err) {
         setSending(false);
         onError(err);
@@ -77,4 +79,3 @@ Form.defaultProps = {
 };
 
 export default Form;
-

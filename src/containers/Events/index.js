@@ -7,11 +7,12 @@ import ModalEvent from "../ModalEvent";
 
 import "./style.css";
 
-const PER_PAGE = 6;
+const PER_PAGE = 9;
 
 const EventList = () => {
   const { data, error } = useData();
   // const [type, setType] = useState();
+  // le filtre est initialisé à null au lieu d'une valeur indéfinie.
   const [type, setType] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 

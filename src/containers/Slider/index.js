@@ -31,16 +31,6 @@ const Slider = () => {
 
   if (byDateAsc.length === 0) return null;
 
-  // const nextCard = () => {
-  //   setTimeout(
-  //     () => setIndex(index < byDateDesc.length ? index + 1 : 0),
-  //     5000
-  //   );
-  // };
-  // useEffect(() => {
-  //   nextCard();
-  // });
-
   return (
     <div className="SlideCardList">
       {byDateAsc.map((event, idx) => (
